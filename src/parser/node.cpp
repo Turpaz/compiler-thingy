@@ -26,6 +26,12 @@ namespace Nodes
 		gen.prog.named_variables[name] = "%" + gen.vcl();
 	}
 
+	void IteStmt::codegen(Generator &gen) const
+	{
+		// TODO: implement
+		// TODO: also add it to the parser so it will actually exist...
+	}
+
 	void FuncDeclStmt::codegen(Generator &gen) const
 	{
 		// might need to move this elsewhere

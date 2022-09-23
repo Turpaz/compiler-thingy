@@ -155,6 +155,7 @@ Nodes::Expr *Parser::parse_expr()
 	}
 }
 */
+
 Nodes::Expr *Parser::parse_expr()
 {
 	return this->parse_e();
@@ -803,7 +804,7 @@ Nodes::Expr *Parser::parse_t10() // TODO: implement! i need to create the matchi
 	}
 }
 // identifier, literal, parenthesis, neg, not, function call
-Nodes::Expr *Parser::parse_f()
+Nodes::Expr *Parser::parse_f() // TODO: array/dict literal
 {
 	// F -> ID(E) | ID | (E) | -E | +E | !E | literal
 	size_t pos = tok.position;

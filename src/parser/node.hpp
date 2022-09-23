@@ -14,16 +14,6 @@ using std::vector;
 
 namespace Nodes
 {
-	struct Stmt
-	{
-		size_t position;
-
-		Stmt(size_t Position) : position(Position) {}
-
-		virtual void print() const = 0;
-		virtual void codegen(Generator &gen) const = 0;
-	};
-
 	enum BOPS
 	{
 		BOP_OR = 0,
@@ -42,6 +32,15 @@ namespace Nodes
 		BOP_POW
 	};
 
+	struct Stmt
+	{
+		size_t position;
+
+		Stmt(size_t Position) : position(Position) {}
+
+		virtual void print() const = 0;
+		virtual void codegen(Generator &gen) const = 0;
+	};
 	struct Expr
 	{
 		size_t position;
@@ -63,7 +62,6 @@ namespace Nodes
 
 		void codegen(Generator &gen) const {}
 	};
-
 	struct BlockStmt : public Stmt
 	{
 		vector<Stmt *> stmts;
@@ -97,7 +95,6 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
-
 	struct VarDeclStmt : public Stmt
 	{
 		string name;
@@ -121,7 +118,34 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
+	struct IteStmt : public Stmt
+	{
+		Expr *cond;
+		Expr *then_b;
+		Expr *else_b;
 
+		IteStmt(size_t position, Expr *cond, Expr *then_b, Expr *else_b) : Stmt(position), cond(cond), then_b(then_b), else_b(else_b) {}
+		~IteStmt()
+		{
+			delete cond;
+			delete then_b;
+			delete else_b;
+		}
+
+		void print() const
+		{
+			printf("(IteStmt at %zu)\n", position);
+			printf("\tif: ");
+			cond->print();
+			printf("\n\tthen: ");
+			then_b->print();
+			printf("\n\telse: ");
+			else_b->print();
+			printf("\n");
+		}
+
+		void codegen(Generator &gen) const;
+	};
 	struct FuncDeclStmt : public Stmt
 	{
 		string name;
@@ -153,7 +177,6 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
-
 	struct RetStmt : public Stmt
 	{
 		Expr *value;
@@ -170,7 +193,6 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
-
 	struct ExprStmt : public Stmt
 	{
 		Expr *expr;
@@ -189,7 +211,6 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
-
 	struct FuncCallExpr : public Expr
 	{
 		string name;
@@ -219,7 +240,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct PrintlnCallExpr : public Expr
 	{
 		vector<Expr *> args;
@@ -247,7 +267,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct ExitCallExpr : public Expr
 	{
 		vector<Expr *> args;
@@ -275,7 +294,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct AssignExpr : public Expr
 	{
 		Expr *dest;
@@ -300,7 +318,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct BopExpr : public Expr
 	{
 		unsigned char op;
@@ -327,7 +344,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct NegExpr : public Expr
 	{
 		Expr *value;
@@ -348,7 +364,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct NotExpr : public Expr
 	{
 		Expr *value;
@@ -369,7 +384,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct IdentifierExpr : public Expr
 	{
 		string name;
@@ -384,7 +398,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct TernaryExpr : public Expr
 	{
 		Expr *condition;
@@ -413,7 +426,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct StrLitExpr : public Expr
 	{
 		string value;
@@ -428,7 +440,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct IntLitExpr : public Expr
 	{
 		long long value;
@@ -443,7 +454,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct BoolLitExpr : public Expr
 	{
 		bool value;
@@ -458,7 +468,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct FloatLitExpr : public Expr
 	{
 		long double value;
@@ -473,7 +482,6 @@ namespace Nodes
 
 		string codegen(Generator &gen) const;
 	};
-
 	struct CharLitExpr : public Expr
 	{
 		unsigned int value; // support UTF-8 or something might reduce it later
