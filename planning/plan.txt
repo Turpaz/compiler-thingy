@@ -1,0 +1,88 @@
+Name: TODO: i don't know i need to think about it, something cool tho.
+Type: Compiled, maybe an option to be interpreted for quick runs, maybe add JIT. TODO: decide
+Also Type: I guess functional with oop capabilities (rust or js style). TODO: need to think about wether functions are to be passed as variables or not.
+Semicolon-ed: Yes.
+Curly-Brace-ed: Yes.
+
+Main:
+```
+fn main()
+{
+	...
+}
+```
+
+Comment:
+```
+// This is a comment!
+/*
+	This is a comment too!
+*/
+```
+
+Print:
+```
+fn main()
+{
+	println("Hello, World!") // prints "Hello, World!" with a '\n' at the end
+	print("a", "b") // prints "a b" without a newline character. (the space is the default separator)
+	println("a", "b", "c", sep=", ") // prints "a, b, c" with '\n', ", " because the sep is changed
+}
+```
+
+Variables:
+```
+fn main()
+{
+	var v: i32; // default value is 0 for integers, 0.0 for floats, "" for string and so on
+	var x = 22; // type 32-bit integer is inferred, for smaller or larger integers - specify
+	var y: i8 = 100; // 8-bit integer...
+	var z = "Hello, World!"; // type str is inferred.
+	const w: f64 = 43.76; // constant 64-bit float
+	var d: dyn = 3; // dynamic variables? TODO: probably need those
+	// var o: u128?; // optional unsigned 128-bit integer. optional means it can be either null or a value. TODO: haven't decided if it's going to exist or not
+}
+```
+
+Types:
+```
+	i8, i16, i32, i64, i128 - integers, inferred type for integers is i32
+	u8, u16, u32, u64, u128 - unsigned integers
+	f32, f64 - floating points, inferred type for floating points is f64
+	bool - booleans (true, false)
+	char - characters. TODO: should think about that one - using ascii or utf-8? utf16? letting the user choose?
+
+	str - strings "", variable length character array, TODO: think about encoding - utf-8? ascii?
+	arr - arrays [], single type, TODO: variable length? fixed length? both? fixed when declaring as const?
+		TODO: how do i declare those? 
+			var a: arr<i32> = [...]; ?
+			arr a: i32 = [...]; ?
+			var a: i32[] = [...]; ?
+			var[] a: i32 = [...]; ?
+			var a = [...]; ? // inferring only, has problems with empty arrays
+			var a: [i32] = [...]; ?
+			var a: [i32; 5] = [...]; ? // declaring size
+			...
+	tup - tuples (), multiple types, fixed length
+		TODO: how do i declare those? 
+			var a: tup = (...); ?
+			tup a = (...); ?
+			tup a: (i32, f64, str) = (...); ?
+			var a: (i32, f64, str) = (...); ?
+			...
+	TODO: decide if i need the list type to complete the arr type
+```
+
+Literals:
+```
+	integers - 8456, -1231, 1_000_000_000 // underscores are like ',' but are truly meaningless, like that 1000000000 is the same as 1,000,000,000.
+	hexadecimals - 0x32c
+	octals - 0o234
+	binary - 0b0101_0111_0100
+	booleans - true, false - (1, 0) TODO: decide if booleans will be the same as 1 and 0 or not
+	characters - 'A', '$', '8'
+	strings - "Hi!"
+	arrays - [1, 2, 3], [0:10:1] (this is a range thingy, will be interpreted as [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], start:end:step, you'll also be able to slice arrays and string like that - python style).
+	tuples - (1, 0.32, "Sixty four")
+	...
+```
