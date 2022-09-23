@@ -50,7 +50,7 @@ Types:
 	u8, u16, u32, u64, u128 - unsigned integers
 	f32, f64 - floating points, inferred type for floating points is f64
 	bool - booleans (true, false)
-	char - characters. TODO: should think about that one - using ascii or utf-8? utf16? letting the user choose?
+	char - characters. TODO: should think about that one - using ascii or utf-8? utf16? letting the user choose (c8, c16, ...)?
 
 	str - strings "", variable length character array, TODO: think about encoding - utf-8? ascii?
 	arr - arrays [], single type, TODO: variable length? fixed length? both? fixed when declaring as const?
@@ -70,6 +70,7 @@ Types:
 			tup a: (i32, f64, str) = (...); ?
 			var a: (i32, f64, str) = (...); ?
 			...
+	TODO: dict???
 	TODO: decide if i need the list type to complete the arr type
 ```
 
