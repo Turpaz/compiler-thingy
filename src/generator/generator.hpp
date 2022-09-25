@@ -174,6 +174,31 @@ define i32 @println(ptr %str)\n\
 		return "%char" + std::to_string(c);
 	}
 
+	string integerCast(string value, string to)
+	{
+		string from = prog.variables.at(value);
+
+		if (from[0] != 'i' || to[0] != 'i')
+		{
+			Error("Developer Error: Can't use integerCast on non integer types (" + from + " ->" + to + ")", 0);
+		}
+
+		if (std::atoi(from.c_str() + 1) > std::atoi(to.c_str() + 1))
+		{
+			code += "%" + vci() + " = trunc " + from + " " + value + " to " + to;
+			return "%" + vcl();
+		}
+		else if (std::atoi(from.c_str() + 1) < std::atoi(to.c_str() + 1))
+		{
+			code += "%" + vci() + " = zext " + from + " " + value + " to " + to;
+			return "%" + vcl();
+		}
+		else
+		{
+			return value;
+		}
+	}
+
 	string toFreeVariable(string s)
 	{
 		if (s[0] == '@')
