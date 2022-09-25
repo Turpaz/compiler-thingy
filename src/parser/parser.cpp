@@ -165,6 +165,8 @@ Nodes::Expr *Parser::parse_expr()
 	return this->parse_e();
 }
 
+// Statements
+
 Nodes::Stmt *Parser::parse_block_stmt()
 {
 	Nodes::BlockStmt *block = new Nodes::BlockStmt(tok.position);

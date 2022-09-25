@@ -186,11 +186,13 @@ define i32 @println(ptr %str)\n\
 		if (std::atoi(from.c_str() + 1) > std::atoi(to.c_str() + 1))
 		{
 			code += "%" + vci() + " = trunc " + from + " " + value + " to " + to;
+			prog.addVar("%" + vcl(), to);
 			return "%" + vcl();
 		}
 		else if (std::atoi(from.c_str() + 1) < std::atoi(to.c_str() + 1))
 		{
 			code += "%" + vci() + " = zext " + from + " " + value + " to " + to;
+			prog.addVar("%" + vcl(), to);
 			return "%" + vcl();
 		}
 		else
