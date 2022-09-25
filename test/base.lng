@@ -3,6 +3,11 @@
 fn main()
 {
 	println("Hello, World!");
+
+	if 3 > 50
+	{
+		println("3");
+	}
 	
 	return 200;
 }

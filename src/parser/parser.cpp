@@ -305,6 +305,20 @@ Nodes::Stmt *Parser::parse_if_stmt()
 	return new Nodes::IteStmt(pos, _cond, _then, _else);
 }
 
+Nodes::Stmt *Parser::parse_while_stmt()
+{
+	size_t pos = tok.position;
+
+	if (tok.str != "while")
+	{
+		Error("Expected \"while\" keyword (while <cond> <code>)", tok.position);
+	}
+
+	tok = lexer->next(); // while
+
+	Nodes::Expr *_cond = parse_expr(); // condition
+}
+
 Nodes::Stmt *Parser::parse_func_stmt()
 {
 	Nodes::FuncDeclStmt *func_stmt = new Nodes::FuncDeclStmt(tok.position);

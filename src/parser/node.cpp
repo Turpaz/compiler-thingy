@@ -298,36 +298,36 @@ namespace Nodes
 		else if (op == BOPS::BOP_EQ) // ==
 		{
 			gen.code += vresult + " = icmp eq " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		else if (op == BOPS::BOP_NEQ) // !=
 		{
 			gen.code += vresult + " = icmp ne " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		else if (op == BOPS::BOP_GT) // !=
 		{
 			// currently only works for signed integers
 			gen.code += vresult + " = icmp sgt " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		else if (op == BOPS::BOP_GTE) // !=
 		{
 			// currently only works for signed integers
 			gen.code += vresult + " = icmp sge " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		else if (op == BOPS::BOP_LT) // !=
 		{
 			// currently only works for signed integers
 			gen.code += vresult + " = icmp slt " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		else if (op == BOPS::BOP_LTE) // !=
 		{
 			// currently only works for signed integers
 			gen.code += vresult + " = icmp sle " + exprType + " " + vlhs + ", " + vrhs + "\n";
-			gen.prog.addVar(vresult, exprType);
+			gen.prog.addVar(vresult, "i1");
 		}
 		// TODO: Finish
 		else
