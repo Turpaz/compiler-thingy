@@ -37,11 +37,12 @@ namespace Nodes
 
 		gen.code += "ifthen" + id + ":\n";
 		then_b->codegen(gen);
-		gen.code += "ttoend" + id + ":\n\tbr label %ifend" + id + "\n"; // if i don't have this label and the block has a return statement it's automatically creating a new numbered label so my variable naming will be wrong
+		gen.code += "br label %ifend" + id + "\n";
+		// gen.code += "ttoend" + id + ":\n\tbr label %ifend" + id + "\n"; // if i don't have this label and the block has a return statement it's automatically creating a new numbered label so my variable naming will be wrong
 
 		gen.code += "ifelse" + id + ":\n";
 		else_b->codegen(gen);
-		gen.code += "ftoend" + id + ":\n\tbr label %ifend" + id + "\n";
+		gen.code += "br label %ifend" + id + "\n";
 
 		gen.code += "ifend" + id + ":\n";
 	}
@@ -97,6 +98,8 @@ namespace Nodes
 		}
 
 		gen.code += "ret " + gen.prog.variables.at(fv) + " " + fv + "\n";
+
+		gen.vci(); // increment... because of something with it creating an automatic new numbered label
 	}
 
 	void ExprStmt::codegen(Generator &gen) const

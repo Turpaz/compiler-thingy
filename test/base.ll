@@ -1,7 +1,5 @@
 @.str.nl = constant [2 x i8] c"\0A\00"
 @.str.0 = constant [14 x i8] c"Hello, World!\00"
-@.str.1 = constant [3 x i8] c"30\00"
-@.str.2 = constant [7 x i8] c"not 30\00"
 declare i32 @printf(ptr noalias nocapture, ...)
 declare void @exit(i32)
 define i32 @print(ptr %str)
@@ -51,31 +49,8 @@ define i32 @main(i32 %argc,ptr %argv)
 store ptr @.str.0, ptr %e0p
 %e0 = load ptr, ptr %e0p
 %1 = call i32 (ptr) @println(ptr %e0)
-%int0 = add i32 0, 0
-%2 = icmp ne i32 %int0, 0
-br i1 %2, label %ifthen2, label %ifelse2
-ifthen2:
-%e1p = alloca ptr
-store ptr @.str.1, ptr %e1p
-%e1 = load ptr, ptr %e1p
-%3 = call i32 (ptr) @println(ptr %e1)
-%int1 = add i32 0, 30
+%int0 = add i32 0, 200
+ret i32 %int0
+%int1 = add i32 0, 0
 ret i32 %int1
-ttoend2:
-	br label %ifend2
-ifelse2:
-%e2p = alloca ptr
-store ptr @.str.2, ptr %e2p
-%e2 = load ptr, ptr %e2p
-%4 = call i32 (ptr) @println(ptr %e2)
-%int2 = add i32 0, 30
-%5 = icmp eq i32 %int2, 0
-%6 = zext i1 %5 to i32ret i32 %6
-ftoend2:
-	br label %ifend2
-ifend2:
-%int3 = add i32 0, 200
-ret i32 %int3
-%int4 = add i32 0, 0
-ret i32 %int4
 }

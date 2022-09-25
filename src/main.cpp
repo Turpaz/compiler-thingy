@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
 	// setting the rules for the lexer
 
-	Rules rules({"fn", "return", "var", "if", "else"},
+	Rules rules({"fn", "return", "var", "if", "else", "while"},
 				{"i32", "str", "void"},
 				{
 					"||",
