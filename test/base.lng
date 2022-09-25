@@ -4,9 +4,12 @@ fn main()
 {
 	println("Hello, World!");
 
-	if 3 > 50
+	var a: i32 = 0;
+
+	while a < 5
 	{
-		println("3");
+		println("a");
+		a++;
 	}
 	
 	return 200;

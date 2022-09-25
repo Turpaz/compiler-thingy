@@ -47,6 +47,23 @@ namespace Nodes
 		gen.code += "ifend" + id + ":\n";
 	}
 
+	void WhileStmt::codegen(Generator &gen) const
+	{
+		string id = gen.vci();
+
+		gen.code += "br label %" + id + "\n";
+		gen.code += id + ":\n";
+		string c = cond->codegen(gen);
+		c = gen.integerCast(c, "i1");
+		gen.code += "br i1 " + c + ", label %whiledo" + id + ", label %whileend" + id + "\n";
+
+		gen.code += "whiledo" + id + ":\n";
+		do_b->codegen(gen);
+		gen.code += "br label %" + id + "\n";
+
+		gen.code += "whileend" + id + ":\n";
+	}
+
 	void FuncDeclStmt::codegen(Generator &gen) const
 	{
 		// might need to move this elsewhere

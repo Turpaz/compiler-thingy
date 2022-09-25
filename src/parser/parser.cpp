@@ -44,6 +44,10 @@ Nodes::Stmt *Parser::parse_stmt()
 		{
 			return parse_if_stmt();
 		}
+		else if (tok.str == "while")
+		{
+			return parse_while_stmt();
+		}
 		else
 		{
 			Error("Unknown keyword \"" + tok.str + "\"", tok.position);
@@ -317,6 +321,10 @@ Nodes::Stmt *Parser::parse_while_stmt()
 	tok = lexer->next(); // while
 
 	Nodes::Expr *_cond = parse_expr(); // condition
+
+	Nodes::Stmt *_do = parse_stmt(); // do
+
+	return new Nodes::WhileStmt(pos, _cond, _do);
 }
 
 Nodes::Stmt *Parser::parse_func_stmt()
@@ -779,13 +787,11 @@ Nodes::Expr *Parser::parse_t9()
 		if (tok.type == TokenType::TOKEN_OPERATOR && tok.str == "++") // ++
 		{
 			tok = lexer->next(); // ++
-			Nodes::Expr *b = parse_t10();
 			a = new Nodes::AssignExpr(pos, a, new Nodes::BopExpr(pos, Nodes::BOP_ADD, a, new Nodes::IntLitExpr(pos, 1)));
 		}
 		if (tok.type == TokenType::TOKEN_OPERATOR && tok.str == "--") // --
 		{
 			tok = lexer->next(); // --
-			Nodes::Expr *b = parse_t10();
 			a = new Nodes::AssignExpr(pos, a, new Nodes::BopExpr(pos, Nodes::BOP_SUB, a, new Nodes::IntLitExpr(pos, 1)));
 		}
 		else

@@ -146,6 +146,30 @@ namespace Nodes
 
 		void codegen(Generator &gen) const;
 	};
+	struct WhileStmt : public Stmt
+	{
+		Expr *cond;
+		Stmt *do_b;
+
+		WhileStmt(size_t position, Expr *cond, Stmt *do_b) : Stmt(position), cond(cond), do_b(do_b) {}
+		~WhileStmt()
+		{
+			delete cond;
+			delete do_b;
+		}
+
+		void print() const
+		{
+			printf("(WhileStmt at %zu)\n", position);
+			printf("\twhile: ");
+			cond->print();
+			printf("\n\tdo: ");
+			do_b->print();
+			printf("\n");
+		}
+
+		void codegen(Generator &gen) const;
+	};
 	struct FuncDeclStmt : public Stmt
 	{
 		string name;
