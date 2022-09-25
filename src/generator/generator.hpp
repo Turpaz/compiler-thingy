@@ -180,7 +180,7 @@ define i32 @println(ptr %str)\n\
 
 		if (from[0] != 'i' || to[0] != 'i')
 		{
-			Error("Developer Error: Can't use integerCast on non integer types (" + from + " ->" + to + ")", 0);
+			Error("Can't cast non integer type to integer (" + from + " -> " + to + ")", 0);
 		}
 
 		if (std::atoi(from.c_str() + 1) > std::atoi(to.c_str() + 1))
@@ -218,6 +218,16 @@ define i32 @println(ptr %str)\n\
 		}
 
 		return s;
+	}
+
+	bool isIntegerType(string t)
+	{
+		return t[0] == 'i';
+	}
+
+	bool isFloatType(string t)
+	{
+		return t == "float" || t == "double";
 	}
 };
 

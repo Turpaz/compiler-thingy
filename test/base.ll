@@ -51,7 +51,7 @@ define i32 @main(i32 %argc,ptr %argv)
 store ptr @.str.0, ptr %e0p
 %e0 = load ptr, ptr %e0p
 %1 = call i32 (ptr) @println(ptr %e0)
-%int0 = add i32 0, 30
+%int0 = add i32 0, 0
 %2 = icmp ne i32 %int0, 0
 br i1 %2, label %ifthen2, label %ifelse2
 ifthen2:
@@ -69,9 +69,8 @@ store ptr @.str.2, ptr %e2p
 %e2 = load ptr, ptr %e2p
 %4 = call i32 (ptr) @println(ptr %e2)
 %int2 = add i32 0, 30
-%tobool5 = trunc i32 %int2 to i1
-%5 = xor i1 %tobool5, 1
-ret i1 %5
+%5 = icmp eq i32 %int2, 0
+%6 = zext i1 %5 to i32ret i32 %6
 ftoend2:
 	br label %ifend2
 ifend2:

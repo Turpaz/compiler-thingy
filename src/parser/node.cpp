@@ -83,7 +83,20 @@ namespace Nodes
 	{
 		string fv = gen.toFreeVariable(value->codegen(gen)); // the variable
 		string t = gen.prog.variables[fv];
-		gen.code += "ret " + t + " " + fv + "\n";
+
+		if (gen.prog.functions.empty())
+		{
+			gen.Error("Unexpected return statement, no functions declared", position);
+		}
+
+		string rtype = std::prev(gen.prog.functions.end())->second.first;
+
+		if (gen.isIntegerType(t) && gen.isIntegerType(rtype))
+		{
+			fv = gen.integerCast(fv, rtype); // Make sure our types match
+		}
+
+		gen.code += "ret " + gen.prog.variables.at(fv) + " " + fv + "\n";
 	}
 
 	void ExprStmt::codegen(Generator &gen) const
@@ -337,9 +350,8 @@ namespace Nodes
 	{
 		string v = value->codegen(gen);
 
-		// add support for floating points
-		gen.code += "%tobool" + gen.vci() + " = trunc " + gen.prog.variables.at(v) + " " + v + " to i1\n";
-		gen.code += "%" + gen.vcl() + " = xor i1 " + "%tobool" + gen.vcl() + ", 1\n";
+		// TODO: add support for floating points
+		gen.code += "%" + gen.vci() + " = icmp eq " + gen.prog.variables.at(v) + " " + v + ", 0\n";
 		gen.prog.addVar("%" + gen.vcl(), "i1");
 
 		return "%" + gen.vcl();
