@@ -121,10 +121,10 @@ namespace Nodes
 	struct IteStmt : public Stmt
 	{
 		Expr *cond;
-		Expr *then_b;
-		Expr *else_b;
+		Stmt *then_b;
+		Stmt *else_b;
 
-		IteStmt(size_t position, Expr *cond, Expr *then_b, Expr *else_b) : Stmt(position), cond(cond), then_b(then_b), else_b(else_b) {}
+		IteStmt(size_t position, Expr *cond, Stmt *then_b, Stmt *else_b) : Stmt(position), cond(cond), then_b(then_b), else_b(else_b) {}
 		~IteStmt()
 		{
 			delete cond;

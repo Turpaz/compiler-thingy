@@ -4,12 +4,12 @@ namespace Nodes
 {
 	void BlockStmt::codegen(Generator &gen) const
 	{
-		gen.code += "{\n";
+		// gen.code += "{\n";
 		for (Stmt *stmt : stmts)
 		{
 			stmt->codegen(gen);
 		}
-		gen.code += "}\n";
+		// gen.code += "}\n";
 	}
 
 	void VarDeclStmt::codegen(Generator &gen) const
@@ -28,8 +28,22 @@ namespace Nodes
 
 	void IteStmt::codegen(Generator &gen) const
 	{
-		// TODO: implement
-		// TODO: also add it to the parser so it will actually exist...
+		string c = cond->codegen(gen);
+
+		string id = gen.vci();
+		gen.code += "%" + id + " = icmp ne " + gen.prog.variables.at(c) + " " + c + ", 0\n";
+		gen.prog.addVar("%" + id, "i1");
+		gen.code += "br i1 %" + id + ", label %ifthen" + id + ", label %ifelse" + id + "\n";
+
+		gen.code += "ifthen" + id + ":\n";
+		then_b->codegen(gen);
+		gen.code += "ttoend" + id + ":\n\tbr label %ifend" + id + "\n"; // if i don't have this label and the block has a return statement it's automatically creating a new numbered label so my variable naming will be wrong
+
+		gen.code += "ifelse" + id + ":\n";
+		else_b->codegen(gen);
+		gen.code += "ftoend" + id + ":\n\tbr label %ifend" + id + "\n";
+
+		gen.code += "ifend" + id + ":\n";
 	}
 
 	void FuncDeclStmt::codegen(Generator &gen) const
@@ -60,8 +74,9 @@ namespace Nodes
 			gen.code += p.first + " %" + p.second + ",";
 		}
 		gen.code[gen.code.size() - 1] = ')';
-		gen.code += "\n";
+		gen.code += "\n{\n";
 		body->codegen(gen);
+		gen.code += "}\n";
 	}
 
 	void RetStmt::codegen(Generator &gen) const
@@ -323,8 +338,8 @@ namespace Nodes
 		string v = value->codegen(gen);
 
 		// add support for floating points
-		gen.code += "%tobool" + gen.vci() + " = trunc " + gen.prog.variables.at(v) + " " + v + "to i1\n";
-		gen.code += "%" + gen.vcl() + " = xor " + gen.prog.variables.at(v) + " " + "%tobool" + gen.vcl() + ", 1\n";
+		gen.code += "%tobool" + gen.vci() + " = trunc " + gen.prog.variables.at(v) + " " + v + " to i1\n";
+		gen.code += "%" + gen.vcl() + " = xor i1 " + "%tobool" + gen.vcl() + ", 1\n";
 		gen.prog.addVar("%" + gen.vcl(), "i1");
 
 		return "%" + gen.vcl();

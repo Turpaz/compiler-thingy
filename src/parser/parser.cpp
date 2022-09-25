@@ -40,6 +40,10 @@ Nodes::Stmt *Parser::parse_stmt()
 		{
 			return parse_var_stmt();
 		}
+		else if (tok.str == "if")
+		{
+			return parse_if_stmt();
+		}
 		else
 		{
 			Error("Unknown keyword \"" + tok.str + "\"", tok.position);
@@ -268,6 +272,35 @@ Nodes::Stmt *Parser::parse_var_stmt()
 	tok = lexer->next();
 
 	return new Nodes::VarDeclStmt(pos, name, type, e);
+}
+
+Nodes::Stmt *Parser::parse_if_stmt()
+{
+	size_t pos = tok.position;
+
+	if (tok.str != "if")
+	{
+		Error("Expected \"if\" keyword (if <cond> <code> else <code>)", tok.position);
+	}
+
+	tok = lexer->next(); // if
+
+	Nodes::Expr *_cond = parse_expr(); // condition
+
+	Nodes::Stmt *_then = parse_stmt(); // then
+
+	if (tok.type != TokenType::TOKEN_KEYWORD || tok.str != "else") // no else
+	{
+		return new Nodes::IteStmt(pos, _cond, _then, new Nodes::EmptyStmt(pos));
+	}
+
+	// there's an "else"
+
+	tok = lexer->next(); // else
+
+	Nodes::Stmt *_else = parse_stmt(); // else
+
+	return new Nodes::IteStmt(pos, _cond, _then, _else);
 }
 
 Nodes::Stmt *Parser::parse_func_stmt()

@@ -28,6 +28,7 @@ private:
 	Nodes::Stmt *parse_block_stmt();
 	Nodes::Stmt *parse_expr_stmt();
 	Nodes::Stmt *parse_var_stmt();
+	Nodes::Stmt *parse_if_stmt();
 	Nodes::Stmt *parse_func_stmt();
 	Nodes::Stmt *parse_return_stmt();
 

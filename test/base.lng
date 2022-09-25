@@ -3,5 +3,16 @@
 fn main()
 {
 	println("Hello, World!");
+	
+	if (30)
+	{
+		println("30");
+		return 30;
+	} else
+	{
+		println("not 30");
+		return !30;
+	}
+	
 	return 200;
 }
